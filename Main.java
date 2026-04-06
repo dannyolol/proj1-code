@@ -7,5 +7,7 @@ public class Main{
     public static void main(String[] args){
         Maze maze = new Maze(6, 12);
         System.out.println("INITIAL MAZE:\n" + maze);
+        maze.simpleRandomize();
+        System.out.println("RANDOMIZED MAZE:\n" + maze);
     }
 }

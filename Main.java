@@ -9,5 +9,7 @@ public class Main{
         System.out.println("INITIAL MAZE:\n" + maze);
         maze.simpleRandomize();
         System.out.println("RANDOMIZED MAZE:\n" + maze);
+        maze.importMaze("maze.txt");
+        System.out.println("IMPORTED MAZE:\n" + maze);
     }
 }

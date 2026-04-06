@@ -253,16 +253,28 @@ public class Maze {
         } 
     }
 
-    public void importMaze(String mazeString) {
-        String[] lines = mazeString.split("\n");
-        this.height = lines.length;
-        this.width = lines[0].length();
-        this.mazeStates = new char[height][width];
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                char state = lines[i].charAt(j);
-                setState(i, j, state);
+    public void importMaze(String file) {
+        try {
+            java.util.Scanner scanner = new java.util.Scanner(new java.io.File(file));
+            java.util.List<String> lines = new java.util.ArrayList<>();
+            while (scanner.hasNextLine()) {
+                lines.add(scanner.nextLine());
             }
+            scanner.close();
+            // Update maze dimensions based on imported maze
+            this.height = lines.size();
+            this.width = lines.get(0).length();
+            this.mazeStates = new char[height][width];
+            // Fill mazeStates array based on imported maze
+            for (int i = 0; i < height; i++) {
+                String line = lines.get(i);
+                for (int j = 0; j < width; j++) {
+                    char state = line.charAt(j);
+                    setState(i, j, state);
+                }
+            }
+        } catch (java.io.FileNotFoundException e) {
+            System.out.println("File not found: " + file);
         }
     }
 }

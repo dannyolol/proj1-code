@@ -40,7 +40,7 @@ public class Maze {
         //Fill maze with walls by default
         for (int i = 0; i < height; i++){
             for (int j = 0; j < width; j++){
-                this.mazeStates[i][j] = '#';
+                setWall(i, j);
             }
         }
     }
@@ -53,7 +53,7 @@ public class Maze {
      * @param state
      * @return T if successful, F if out of bounds
      */
-    private boolean setCell(int x, int y, char state){
+    private boolean setState(int x, int y, char state){
         if (x >= 0 && x < height && y >= 0 && y < width) {
             mazeStates[x][y] = state;
             return true;
@@ -64,13 +64,13 @@ public class Maze {
         return false; // Return false if out of bounds
     }
     /**
-     * Helper methods to set specific states of cells in the maze. Each method calls setCell with the appropriate state character.
+     * Helper methods to set specific states of cells in the maze. Each method calls setState with the appropriate state character.
      * @param x
      * @param y
      * @return
      */
     private boolean setStart(int x, int y){
-        return setCell(x, y, 'S');
+        return setState(x, y, 'S');
     }
     /**
      * Helper methods to set specific states of cells in the maze. Each method calls setCell with the appropriate state character.
@@ -79,7 +79,7 @@ public class Maze {
      * @return
      */
     private boolean setEnd(int x, int y){
-        return setCell(x, y, 'E');
+        return setState(x, y, 'E');
     }
     /**
      * Helper methods to set specific states of cells in the maze. Each method calls setCell with the appropriate state character.
@@ -88,7 +88,7 @@ public class Maze {
      * @return
      */
     private boolean setEmpty(int x, int y){
-        return setCell(x, y, ' ');
+        return setState(x, y, ' ');
     }
     /**
      * Helper methods to set specific states of cells in the maze. Each method calls setCell with the appropriate state character.
@@ -97,7 +97,7 @@ public class Maze {
      * @return
      */
     private boolean setWall(int x, int y){
-        return setCell(x, y, '#');
+        return setState(x, y, '#');
     }
     /**
      * Helper method to get the state of a cell in the maze. Returns the state character if in bounds, '#' if out of bounds.
@@ -118,7 +118,7 @@ public class Maze {
     private int[] getStart() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (mazeStates[i][j] == 'S') {
+                if (getState(i, j) == 'S') {
                     return new int[]{i, j};
                 }
             }
@@ -132,7 +132,7 @@ public class Maze {
     private int[] getEnd() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (mazeStates[i][j] == 'E') {
+                if (getState(i, j) == 'E') {
                     return new int[]{i, j};
                 }
             }
@@ -169,7 +169,7 @@ public class Maze {
     for (int i = 0; i < height; i++) {
         sb.append("# ");
         for (int j = 0; j < width; j++) {
-            char state = mazeStates[i][j];
+            char state = getState(i, j);
             sb.append(state).append(" ");
         }
         sb.append("#\n");
@@ -192,7 +192,7 @@ public class Maze {
         // Start with a grid of walls
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                mazeStates[i][j] = '#';
+                setWall(i, j);
             }
         }
         // Randomly choose a starting point and mark it as empty
@@ -231,7 +231,7 @@ public class Maze {
         //Start in top left corner and end in bottom right corner by default, or the closest empty cell to those corners if they are walls
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (mazeStates[i][j] == ' ') {
+                if (getState(i, j) == ' ') {
                     setStart(i, j);
                     break;
                 }
@@ -242,7 +242,7 @@ public class Maze {
         }
         for (int i = height - 1; i >= 0; i--) {
             for (int j = width - 1; j >= 0; j--) {
-                if (mazeStates[i][j] == ' ') {
+                if (getState(i, j) == ' ') {
                     setEnd(i, j);
                     break;
                 }
@@ -251,5 +251,18 @@ public class Maze {
                 break;
             }
         } 
+    }
+
+    public void importMaze(String mazeString) {
+        String[] lines = mazeString.split("\n");
+        this.height = lines.length;
+        this.width = lines[0].length();
+        this.mazeStates = new char[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                char state = lines[i].charAt(j);
+                setState(i, j, state);
+            }
+        }
     }
 }

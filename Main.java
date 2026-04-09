@@ -1,12 +1,12 @@
 /**
  * Main class used for testing and running Maze object code
  */
-public class Main{
+public class Main {
 
-    //Main method
-    public static void main(String[] args){
+    // Main method
+    public static void main(String[] args) {
 
-        //Multitest many small mazes to check for consistency
+        // Multitest many small mazes to check for consistency
         if (multiTest(5000, 10)) {
             System.out.println("Consistency test passed for maze size " + 10);
         } else {
@@ -14,7 +14,7 @@ public class Main{
             return;
         }
 
-        //Multitest some medium mazes to check for consistency
+        // Multitest some medium mazes to check for consistency
         if (multiTest(10, 50)) {
             System.out.println("Consistency test passed for maze size " + 50);
         } else {
@@ -22,7 +22,7 @@ public class Main{
             return;
         }
 
-        //Single test a large maze to make me look cool
+        // Single test a large maze to make me look cool
         Maze maze = new Maze(300, 100);
         maze.simpleRandomize();
         int steps = maze.solveMaze(false);
@@ -33,8 +33,8 @@ public class Main{
             return;
         }
 
-        //Edge case tests
-        //Test maze with no start point
+        // Edge case tests
+        // Test maze with no start point
         maze.importMaze("noStartMaze.txt");
         steps = maze.solveMaze(false);
         if (steps == -1) {
@@ -44,7 +44,7 @@ public class Main{
             return;
         }
 
-        //Test maze with no end point
+        // Test maze with no end point
         maze.importMaze("noEndMaze.txt");
         steps = maze.solveMaze(false);
         if (steps == -1) {
@@ -54,7 +54,7 @@ public class Main{
             return;
         }
 
-        //Test maze that is unsolvable
+        // Test maze that is unsolvable
         maze.importMaze("unsolvableMaze.txt");
         steps = maze.solveMaze(false);
         if (steps == -1) {
@@ -69,7 +69,7 @@ public class Main{
     private static boolean multiTest(int numAttempts, int mazeSize) {
         Maze maze = new Maze(mazeSize, mazeSize);
         maze.simpleRandomize();
-        
+
         for (int i = 0; i < numAttempts; i++) {
             int steps = maze.solveMaze(false);
             if (steps > 0) {
